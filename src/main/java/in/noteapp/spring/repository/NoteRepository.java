@@ -10,4 +10,5 @@ import in.noteapp.spring.model.Category;
 
 public interface NoteRepository extends JpaRepository<Note, Long> {
     List<Note> findByCategory(Category category);
+    List<Note> findByCategoryId(Long categoryId);
 }

@@ -3,6 +3,8 @@ package in.noteapp.spring.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "notes")
 public class Note {
@@ -17,22 +19,33 @@ public class Note {
     private String content;
 
     private LocalDateTime createdAt;
+    
+    private String documentPath;
 
- 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private Category category;
 
     public Note() {}
 
-    public Note(Long id, String title, String content, LocalDateTime createdAt, Category category) {
-        this.id = id;
+    public Note(String title, String content, LocalDateTime createdAt, String documentPath, Category category) {
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
+        this.documentPath = documentPath;
         this.category = category;
     }
 
+
+    public String getDocumentPath() {
+        return documentPath;
+    }
+
+    public void setDocumentPath(String documentPath) {
+        this.documentPath = documentPath;
+    }
+    
     public Long getId() {
         return id;
     }
