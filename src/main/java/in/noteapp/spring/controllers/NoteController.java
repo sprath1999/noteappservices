@@ -1,5 +1,6 @@
 package in.noteapp.spring.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.noteapp.spring.model.Note;
 import in.noteapp.spring.request.NoteRequest;
+import in.noteapp.spring.security.JwtUtil;
 import in.noteapp.spring.services.NoteService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/notes")
@@ -53,4 +58,13 @@ public class NoteController {
 	        Note updatedNote = noteService.updateNote(id, request);
 	        return ResponseEntity.ok(updatedNote);
 	    }
+	    @GetMapping("/search")
+	    public ResponseEntity<List<Note>> searchNotes(
+	            @RequestParam(required = false) String title,
+	            @RequestParam Long categoryId) {
+
+	        List<Note> notes = noteService.searchNotesByTitleAndCategory(title, categoryId);
+	        return ResponseEntity.ok(notes);
+	    }
+
 }

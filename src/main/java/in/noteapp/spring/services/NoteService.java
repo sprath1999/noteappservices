@@ -9,10 +9,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import in.noteapp.spring.model.Category;
 import in.noteapp.spring.model.Note;
+import in.noteapp.spring.model.User;
 import in.noteapp.spring.repository.CategoryRepository;
 import in.noteapp.spring.repository.NoteRepository;
+import in.noteapp.spring.repository.UserRepository;
 import in.noteapp.spring.request.NoteRequest;
+import in.noteapp.spring.security.JwtUtil;
+
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +28,12 @@ public class NoteService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    
+    @Autowired
+    private JwtUtil jwtUtil;
+    
+    @Autowired
+    private UserRepository userRepository;
     
 //    private final String uploadDir = "uploads/";
     private final String uploadDir = System.getProperty("user.home") + "/NoteUploads/";
@@ -109,6 +120,17 @@ public class NoteService {
 
         return noteRepository.save(existingNote);
     }
+    
+    public List<Note> searchNotesByTitleAndCategory(String title, Long categoryId) {
+        if (categoryId == null) {
+            throw new IllegalArgumentException("Category ID must not be null");
+        }
 
-
+        if (title != null && !title.trim().isEmpty()) {
+            return noteRepository.findByTitleContainingIgnoreCaseAndCategoryId(title, categoryId);
+        } else {
+            return noteRepository.findByCategoryId(categoryId);
+        }
+    }
+    
 }
