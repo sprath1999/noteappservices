@@ -36,7 +36,7 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
             .cors(cors -> cors.configurationSource(request -> {
                 CorsConfiguration cfg = new CorsConfiguration();
-                cfg.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+                cfg.setAllowedOrigins(Arrays.asList("https://noteraweb.netlify.app"));
                 cfg.setAllowedMethods(Collections.singletonList("*"));
                 cfg.setAllowCredentials(true);
                 cfg.setAllowedHeaders(Collections.singletonList("*"));
