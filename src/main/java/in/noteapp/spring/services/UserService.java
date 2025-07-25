@@ -53,10 +53,10 @@ public class UserService {
 
 	        return new LoginResponse(token);
 	    } catch (AuthenticationException ex) {
-	        ex.printStackTrace();  // This will print the full error in console
+	      
 	        throw new RuntimeException("Invalid email or password");
 	    } catch (Exception e) {
-	        e.printStackTrace(); // Catch all unexpected issues
+	      
 	        throw new RuntimeException("Something went wrong: " + e.getMessage());
 	    }
 	}
